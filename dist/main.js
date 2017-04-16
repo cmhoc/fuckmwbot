@@ -22,8 +22,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var limiter = new _limiter.RateLimiter(59, 'minute');
 
-console.log(_config2.default);
-
 var r = new _snoowrap2.default(_config2.default.reddit);
 
 function setflair(user, flair) {

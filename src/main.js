@@ -6,8 +6,6 @@ import Baby from 'babyparse';
 
 const limiter = new RateLimiter(59, 'minute');
 
-console.log(config);
-
 const r = new snoowrap(config.reddit);
 
 function setflair(user, flair) {
