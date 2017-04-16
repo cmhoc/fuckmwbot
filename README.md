@@ -41,9 +41,11 @@ exports.default = {
 
 ## Usage
 
-First add the bot as a moderator (with flair permission) to all subreddits you want it to set flairs on.
+First add the bot as a moderator (with flair permission) to all subreddits you want it to set flairs on. There are two formats of supported: [YAML](https://yaml.org) and CSV (comma separated values).
 
-Then send a private message in the following format to the bot account (it's [YAML](https://yaml.org)!):
+### YAML
+
+Then send a private message in the following format to the bot account:
 
 ```yaml
 ---
@@ -119,4 +121,32 @@ The bot can also accept multiple requests in one message, e.g.
     subreddit: cmhoc
 ```
 
+### CSV
 
+Send a message to the bot in the following format (first row MUST be `csv`):
+
+```
+csv
+username1,subreddit1,text1,css-class1
+username2,subreddit2,text2,css-class2
+username3,subreddit3,text3,css-class3
+```
+
+i.e. the CSV message 
+```csv
+csv
+zhantongz,mcbc,flair text,flair-css-class
+smallweinerdengboi99,mcbc,flair text,flair-css-class
+```
+is equivalent to
+
+```yaml
+---
+user:
+  - zhantongz
+  - smallweinerdengboi99
+flair:
+  text: flair text
+  css: flair-css-class
+  subreddit: mcbc
+```
