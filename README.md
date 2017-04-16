@@ -3,7 +3,7 @@ A bot to Flair Users Considering Knowing Model World
 
 ## Configuration and Running
 
-[Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/) are required.
+[Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/) are required. You may prefer using [forever](https://github.com/foreverjs/forever) to keep the bot running in the background.
 
 ```
 npm install
