@@ -7,6 +7,7 @@ A bot to Flair Users Considering Knowing Model World
 
 ```
 npm install
+cd dist/
 nano config.js # configure the bot; see blow
 node main.js # or forever main.js if you use forever to keep the script running
 ```
@@ -20,15 +21,21 @@ You need to first creat a bot account (or an existing one) at reddit, then go to
 The configuration file is straightforward:
 
 ```javascript
-export {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = {
   reddit: {
     userAgent: 'USER_AGENT', // put a user agent string here; SEE https://github.com/reddit/reddit/wiki/API
     clientId: 'CLIENT ID', // put client ID here; see above screenshot
     clientSecret: 'CLIENT SECRET', // put client secret here; see above screenshot
     username: 'BOT USERNAME', // put your bot account's username here
-    password: 'BOT PASSWORD' // put your bot account's password here
-  }
-}
+    password: 'BOT PASSWORD'// put your bot account's password here
+  },
+  mods: ['MODERATOR_1', 'MODERATOR_2'] // put your moderators here; NOTE: THEY CAN CHANGE FLAIRS FOR EVERYONE
+};
 ```
 
 
@@ -50,4 +57,66 @@ flair:
 ```
 
 Above message will ask the bot to set a flair saying "flair text" with `flair-css-class` CSS class for the users `zhantongz` and `smallweinerdengboi99` on /r/MCBC. The `user` part may be omitted and then the flair will be set for the sender of the message, allowing self-requests.
+
+It supports setting flairs for multiple subreddits at once, e.g.
+
+```yaml
+---
+user:
+  - zhantongz
+  - smallweinerdengboi99
+flair:
+  text: 
+  - mcbc flair text
+  - cmhoc flair text
+  css: 
+  - mcbc-flair
+  - cmhoc-flair
+  subreddit:
+  - mcbc
+  - cmhoc
+```
+
+You can also use the following for shared flairs:
+
+```yaml
+---
+user:
+  - zhantongz
+  - smallweinerdengboi99
+flair:
+  text: 
+  - Flair text for both /r/mcbc and /r/cmhoc
+  css: 
+  - common-flair-class
+  subreddit:
+  - mcbc
+  - cmhoc
+```
+
+The bot can also accept multiple requests in one message, e.g.
+
+```yaml
+---
+- user:
+  - zhantongz
+  - cmhoc
+  flair:
+    text:
+    - mcbc flair text
+    - cmhoc flair text
+    css:
+    - mcbc-flair
+    - cmhoc-flair
+    subreddit:
+    - mcbc
+    - cmhoc
+- user:
+  - smallweinerdengboi99
+  flair:
+    text: cmhoc flair
+    css: cmhoc-flair
+    subreddit: cmhoc
+```
+
 
