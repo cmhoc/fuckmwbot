@@ -2,6 +2,7 @@ import snoowrap from 'snoowrap';
 import yaml from 'js-yaml';
 import {RateLimiter} from 'limiter';
 import config from './config.js';
+import Baby from 'babyparse';
 
 const limiter = new RateLimiter(59, 'minute');
 
@@ -55,9 +56,35 @@ let process = () => {
         }
         msg.reply(`SUCCESS`);
       } catch (e) {
-        msg.reply(`**FAILURE**
+        if(msg.body.substring(0,3) === 'csv') {
+          try {
+            let parsed = Baby.parse(msg.body);
+            if (parsed.error.length > 0) {
+              throw parsed.error;
+            }
+            let rows = parsed.data;
+            rows.shift();
+            rows.forEach((row) => {
+              setflair(row[0], {
+                flair: {
+                  text: row[2],
+                  css: row[3],
+                  subreddit: row[1]
+                }
+              });
+            });
+          } catch (ecsv) {
+            msg.reply(`**FAILURE**
+  
+            YAML: ${e}
 
-          ${e}`)
+            CSV: ${ecsv}`)
+          }
+        } else {
+          msg.reply(`**FAILURE**
+  
+            ${e}`)
+        }
       }
     })
   });
@@ -65,4 +92,5 @@ let process = () => {
 
 
 setInterval(process, 1000*10);
+
 

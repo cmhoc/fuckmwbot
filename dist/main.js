@@ -14,6 +14,10 @@ var _config = require('./config.js');
 
 var _config2 = _interopRequireDefault(_config);
 
+var _babyparse = require('babyparse');
+
+var _babyparse2 = _interopRequireDefault(_babyparse);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var limiter = new _limiter.RateLimiter(59, 'minute');
@@ -67,7 +71,29 @@ var process = function process() {
         }
         msg.reply('SUCCESS');
       } catch (e) {
-        msg.reply('**FAILURE**\n\n          ' + e);
+        if (msg.body.substring(0, 3) === 'csv') {
+          try {
+            var _parsed = _babyparse2.default.parse(msg.body);
+            if (_parsed.error.length > 0) {
+              throw _parsed.error;
+            }
+            var rows = _parsed.data;
+            rows.shift();
+            rows.forEach(function (row) {
+              setflair(row[0], {
+                flair: {
+                  text: row[2],
+                  css: row[3],
+                  subreddit: row[1]
+                }
+              });
+            });
+          } catch (ecsv) {
+            msg.reply('**FAILURE**\n  \n            YAML: ' + e + '\n\n            CSV: ' + ecsv);
+          }
+        } else {
+          msg.reply('**FAILURE**\n  \n            ' + e);
+        }
       }
     });
   });
