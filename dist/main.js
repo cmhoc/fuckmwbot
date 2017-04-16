@@ -80,7 +80,7 @@ var process = function process() {
             var rows = _parsed.data;
             rows.shift();
             rows.forEach(function (row) {
-              setflair(row[0], {
+              setflair(row[0] || msg.author.name, {
                 flair: {
                   text: row[2],
                   css: row[3],

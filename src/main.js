@@ -65,7 +65,7 @@ let process = () => {
             let rows = parsed.data;
             rows.shift();
             rows.forEach((row) => {
-              setflair(row[0], {
+              setflair(row[0] || msg.author.name, {
                 flair: {
                   text: row[2],
                   css: row[3],
